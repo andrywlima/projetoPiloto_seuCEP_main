@@ -1,36 +1,30 @@
-import React, { Component, useState } from 'react';
-import type { Node } from 'react';
+import React, { useState } from 'react';
 import { Text, View, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
 
-export default function App () {
+const  App = () => {
 
   const [cep, setCep ] = useState("")
   const [dados, setdados] = useState(null) 
+  const [carregando, setcarregando] = useState(false)
 
-  
-
-  //criando a instância cep , função que só envia
   const buscarCep = () => {
-    // primeiro then converte todo o response do servidor em json
-    // o segundo then é os dados
-    // requisição da api   
+   
+
        if (cep.replace("-", "" ).length != 8) {
          alert("Digite o cpf validor por favor!")
 
          return
        }
 
-    fetch(`https://viacep.com.br/ws/${cep.replace("-", "" )}/json/`)
+    fetch(`https://viacep.com.br/ws/${cep.replace("-")}/json/`)
     .then(res => res.json())
     .then(objeto => setdados(objeto))
     .catch(err => alert("Tente novamente, CEP invalido!")) 
+    .finally(()=> setcarregando(false))
+    
     } 
-  //criando um style para configuração de tela chamado de 'container' para deixar tudo enquadrado.
-      // utilizando uma view para os texts, textinput e button, foi criando um style cara o titulo outra para o texto em seguida subtitulo
-      //um style para o input para o button
-
-      // foi utilizado o TouchableOpacity pois faz com que a view responda com o toque dado ao botão
+ 
     return (
     
       <View style={styles.container}>
@@ -42,6 +36,7 @@ export default function App () {
           style={styles.input}
           placeholder='Testando app'
           placeholderTextColor='#c3c3c3'
+          keyboardType="numeric"
          />
         <TouchableOpacity
           style={styles.button}
@@ -51,7 +46,10 @@ export default function App () {
             Buscar
         </Text>
         </TouchableOpacity>
-           { dados != null && (
+        {carregando && <Text>Verificando CEP</Text>}
+
+           { dados != null && !carregando &&(
+             
         <View style = {styles.boxdados} >
         <Text style= {styles.textdados}>CEP:  {dados.cep}</Text>
         <Text style= {styles.textdados}>Bairro: {dados.bairro}</Text>
@@ -60,12 +58,12 @@ export default function App () {
         <Text style= {styles.textdados}>localidade: {dados.localidade}</Text>
         <Text style= {styles.textdados}>UF: {dados.uf}</Text>
         <Text style= {styles.textdados}>DDD da região: {dados.ddd}</Text>
+        <Text />
       </View> )}
      </View>
     );
   }
-
-
+  
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -121,3 +119,4 @@ const styles = StyleSheet.create({
   }
 });
 
+export default App;
