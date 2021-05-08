@@ -21,9 +21,11 @@ function Input (props) {
 const styles = StyleSheet.create({
 
     input: {
-        marginTop: 15,
+        marginTop: 10,
+        marginBottom: 10,
         paddingHorizontal: 15,
         paddingVertical: 5,
+        borderRadius: 10,
         borderWidth: 1,
         borderColor: '#c3c3c3',
         color : 'black'

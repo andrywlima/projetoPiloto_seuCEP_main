@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Button,
+  ScrollView,
 } from 'react-native';
 import Input from './componentes/input';
 import Buttonn from './componentes/button';
@@ -13,11 +14,10 @@ import Buttonn from './componentes/button';
 const App = () => {
   const [cep, setCep] = useState('');
   const [dados, setdados] = useState(null);
-  const [carregando, setcarregando] = useState(false);
 
   const buscarCep = () => {
     if (cep.replace('-', '').length != 8) {
-      alert('Digite o cpf validor por favor!');
+      alert('Digite o CEP valido por favor!');
 
       return;
     }
@@ -26,11 +26,10 @@ const App = () => {
       .then(res => res.json())
       .then(objeto => setdados(objeto))
       .catch(err => alert('Tente novamente, CEP invalido!'))
-      .finally(() => setcarregando(false));
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <Text style={styles.title}>
         Quer consultar seu CEP ou {'\n'} o CEP de algum lugar do Brasil?
       </Text>
@@ -47,10 +46,8 @@ const App = () => {
         clique = {buscarCep}
       />
 
-      
-      {carregando && <Text>Verificando CEP</Text>}
-
-      {dados != null && !carregando ? (
+      {dados != null &&  (
+        
         <View style={styles.boxdados}>
           <Text>CEP:</Text>
           <Input editavel={false} valor={dados.cep} />
@@ -73,18 +70,16 @@ const App = () => {
           <Text>DDD DA REGIÃO:</Text>
           <Input editavel={false} valor={dados.ddd} />
         </View>
-      ) : (
-        <></>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 20,
-    marginHorizontal: 20,
+    marginHorizontal: 0,
+
   },
 
   title: {
@@ -109,13 +104,12 @@ const styles = StyleSheet.create({
   },
 
   boxdados: {
-    fontSize: 50,
-    marginHorizontal: 35,
+    marginHorizontal: 10,
     paddingTop: 10,
   },
 
   textdados: {
-    fontSize: 20,
+    fontSize: 50,
   },
 });
 

@@ -15,13 +15,15 @@ function Buttonn (props) {
 
 const styles = StyleSheet.create({
     button: {
+    
         justifyContent: 'center',
         alignItems: 'center',
         borderWidth: 1,
-        paddingHorizontal: 20,
+        paddingHorizontal: 15,
         paddingVertical: 15,
         backgroundColor: 'blue',
         marginTop: 20,
+        
       },
 
       textButton: {
