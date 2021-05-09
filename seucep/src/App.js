@@ -11,21 +11,41 @@ import {
 import Input from './componentes/input';
 import Buttonn from './componentes/button';
 
-const App = () => {
-  const [cep, setCep] = useState('');
-  const [dados, setdados] = useState(null);
 
+const App = () => {
+
+// Declarando a variavel, set é a função que coloca o valor na variavel
+  const [cep, setCep] = useState('');
+  const [dados, setdados] = useState(null); // estado
+  const [validade, setvalidade] = useState(true);
+
+  // funcao que faz a requisição
   const buscarCep = () => {
+
+    // validando tabalho se o cep tem 8 digitos, 
     if (cep.replace('-', '').length != 8) {
-      alert('Digite o CEP valido por favor!');
+      // setando a validade dizendo que ela é invalida(false)
+      setvalidade(false)
 
       return;
     }
+ // requisição
+    fetch(`https://viacep.com.br/ws/${cep.replace('-')}/json/`)  // onde coloca o web service ou api
+      .then(res => res.json())  //transforma a resposta em .json
+      .then(objeto => { // pega o que foi retornado no de cima e feita a validação se é verdade ou não
+        if ( objeto.erro) {
+          setvalidade(false)
+        } else {
+          setdados(objeto)
+          setvalidade(true)
 
-    fetch(`https://viacep.com.br/ws/${cep.replace('-')}/json/`)
-      .then(res => res.json())
-      .then(objeto => setdados(objeto))
-      .catch(err => alert('Tente novamente, CEP invalido!'))
+
+            }
+        
+      })
+      .catch(err =>   // caso de erro na requisição ou na resposta de um objeto
+        console.log(err)
+        )
   };
 
   return (
@@ -41,12 +61,12 @@ const App = () => {
         placeholder="digite o cep"
         tamanho={8}
       />
-
 <Buttonn 
         clique = {buscarCep}
-      />
+        />
 
-      {dados != null &&  (
+        <Text> { !validade && 'CEP não encontrado!'} </Text>
+      { validade &&  (
         
         <View style={styles.boxdados}>
           <Text>CEP:</Text>

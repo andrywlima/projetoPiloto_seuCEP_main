@@ -1,7 +1,7 @@
 import React from 'react';
 import {TextInput, StyleSheet} from 'react-native';
 
-
+// props - um obj das propriedades colocas no <Input /> dentro no app.js
 function Input (props) {
     
 
