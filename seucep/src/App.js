@@ -16,7 +16,7 @@ const App = () => {
 
 // Declarando a variavel, set é a função que coloca o valor na variavel
   const [cep, setCep] = useState('');
-  const [dados, setdados] = useState(null); // estado
+  const [dados, setdados] = useState(''); // estado
   const [validade, setvalidade] = useState(true);
 
   // funcao que faz a requisição
@@ -32,7 +32,7 @@ const App = () => {
  // requisição
     fetch(`https://viacep.com.br/ws/${cep.replace('-')}/json/`)  // onde coloca o web service ou api
       .then(res => res.json())  //transforma a resposta em .json
-      .then(objeto => { // pega o que foi retornado no de cima e feita a validação se é verdade ou não
+      .then(objeto => { 
         if ( objeto.erro) {
           setvalidade(false)
         } else {
@@ -65,7 +65,7 @@ const App = () => {
         clique = {buscarCep}
         />
 
-        <Text> { !validade && 'CEP não encontrado!'} </Text>
+        <Text style = {styles.texterro}> { !validade && 'CEP não encontrado!'} </Text>
       { validade &&  (
         
         <View style={styles.boxdados}>
@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#ccc999',
     fontSize: 20,
+    marginTop: 10,
     marginBottom: 20,
     fontWeight: 'bold',
   },
@@ -113,14 +114,6 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 20,
     textAlign: 'center',
-  },
-
-  input: {
-    marginTop: 20,
-    paddingHorizontal: 25,
-    paddingVertical: 10,
-    borderWidth: 1,
-    borderColor: '#c3c3c3',
   },
 
   boxdados: {
@@ -131,6 +124,14 @@ const styles = StyleSheet.create({
   textdados: {
     fontSize: 50,
   },
+  texterro: {
+    fontSize: 25,
+    marginTop: 15,
+    textAlign: 'center',
+  
+   
+  }
+
 });
 
 export default App;
